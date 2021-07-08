@@ -1,0 +1,26 @@
+class Student:
+    def __init__(self, name, id):
+        self.name = name
+        self.id = id
+
+
+numStudents = int(input('请输入学生数量:\n'))
+Students = []
+for i in range(numStudents):
+    name = input('请输入第' + str(i+1) + '学生的姓名\n')
+    id = input('请输入第' + str(i+1) + '学生的学号\n')
+    Students.append(Student(name, id))
+
+
+def Joseph(Students, k):
+    n = len(Students)
+    num = k
+    for i in range(n):
+        print('Name:', Students[num%len(Students)-1].name, 'ID:', Students[num%len(Students)-1].id)
+        del Students[num%len(Students)-1]
+        if len(Students)==0:
+            print('ok')
+        else:
+            num = (num + k-1) % len(Students)
+
+Joseph(Students, 2)
