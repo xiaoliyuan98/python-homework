@@ -1,0 +1,58 @@
+import xlrd
+import xlwt
+
+class Student:
+    def __init__(self, name, id):
+        self.name = name
+        self.id = id
+
+
+#写入Excel
+excelpath =('D:/Python学习/Joseph4.xls')  #文件名
+workbook = xlwt.Workbook(encoding='utf-8')  #新建excel对象
+sheet = workbook.add_sheet('Sheet1',cell_overwrite_ok=True)  #新增一个sheet工作表
+headlist=[u'姓名',u'学号']   #写入数据头
+row=0
+col=0
+for head in headlist:
+    sheet.write(row,col,head)
+    col=col+1
+
+nums = int(input('请输入学生人数\n'))
+for i in range(1,nums+1):#写入行数据
+    name = input('请输入学生姓名\n')
+    id = int(input('请输入学生学号\n'))
+    sheet.write(i, 0, name)
+    sheet.write(i, 1, id)
+    print(name, '的信息已写入\n')
+workbook.save(excelpath) #保存
+
+
+file_name = xlrd.open_workbook(excelpath)#得到文件
+table =file_name.sheets()[0]#得到sheet页
+nrows = table.nrows #总行数
+ncols = table.ncols #总列数
+i = 1
+Students = []
+while i < nrows:
+    name=table.row_values(i)[0]
+    number= table.row_values(i)[1] 
+    id=int(number) 
+    Students.append(Student(name, number))
+    print(name, '的信息已读出\n')
+    i=i+1
+
+
+def Joseph(Students, k):
+    n = len(Students)
+    num = k
+    for i in range(n):
+        print('Name:', Students[num%len(Students)-1].name, 'ID:', Students[num%len(Students)-1].id)
+        del Students[num%len(Students)-1]
+        if len(Students)==0:
+            print('over')
+        else:
+            num = (num + k-1) % len(Students)
+
+
+Joseph(Students, 2)
